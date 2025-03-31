@@ -1,5 +1,5 @@
 #pragma once
-#define _CRT_SECURE_NO_WARNINGS
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,136 +8,139 @@
 #include <time.h>
 #include <stdbool.h> 
 
-#define PHONE           12  // æ‰‹æœºå·é•¿åº¦
-#define NAME            20  // åç§°é•¿åº¦
-#define PASSWORD        11  // å¯†ç é•¿åº¦
-#define ID_CODE         23  // èº«ä»½ç é•¿åº¦
-#define TRACKING_NUM    15  // å¿«é€’å•å·é•¿åº¦
-#define ADDRESS         200 // åœ°å€åé•¿åº¦
-#define DESCR           400 // æè¿°é•¿åº¦
+#define PHONE           12  // ÊÖ»úºÅ³¤¶È
+#define NAME            20  // Ãû³Æ³¤¶È
+#define PASSWORD        6  // ÃÜÂë³¤¶È
+#define ID_CODE         31  // Éí·İÂë³¤¶È
+#define TRACKING_NUM    15  // ¿ìµİµ¥ºÅ³¤¶È
+#define ADDRESS         200 // µØÖ·Ãû³¤¶È
+#define DESCR           400 // ÃèÊö³¤¶È
 
-/* ç”¨æˆ·ç±»å‹ */
-typedef enum {
-    Regular,   // æ™®é€šç”¨æˆ·
-    VIP,       // VIP ç”¨æˆ·
-    Operator,  // æ“ä½œå‘˜ç”¨æˆ·
-    Admin      // ç®¡ç†å‘˜ç”¨æˆ·
+/* ÓÃ»§ÀàĞÍ */
+typedef enum UserType
+{
+	Regular,   // ÆÕÍ¨ÓÃ»§
+	VIP,       // VIP ÓÃ»§
+	Operator,  // ²Ù×÷Ô±ÓÃ»§
+	Admin      // ¹ÜÀíÔ±ÓÃ»§
 } UserType;
 
-/* åŒ…è£¹ç±»å‹ */
-typedef enum {
-    PackageStandard, // æ ‡å‡†åŒ…è£¹
-    Parcel,          // è´µé‡åŒ…è£¹
-    Fragile          // æ˜“ç¢åŒ…è£¹
+/* °ü¹üÀàĞÍ */
+typedef enum PackageStandard
+{
+	PackageStandard, // ±ê×¼°ü¹ü
+	Parcel,   // ¹óÖØ°ü¹ü
+	Fragile   // Ò×Ëé°ü¹ü
 } PackageType;
 
-/* å¯„ä»¶æ–¹å¼ */
-typedef enum {
-    ShippingStandard, // æ ‡å‡†å¯„ä»¶æ–¹å¼
-    Express,          // å¿«é€’
-    Economic          // ç»æµ
+/* ¼Ä¼ş·½Ê½ */
+typedef enum ShippingMethod
+{
+	ShippingStandard, // ±ê×¼
+	Express,  // ¿ìµİ
+	Economic  // ¾­¼Ã
 } ShippingMethod;
-/* åŒ…è£¹çŠ¶æ€ */
-typedef enum {
-    Ordered,      // å·²ä¸‹å•
-    Shipped,      // å·²å¯„å‡º
-    Pending,      // å¾…æ”¶ä»¶
-    Delivered,    // å·²æ”¶ä»¶
-    Refused,      // æ‹’æ”¶
-    Canceled,     // å–æ¶ˆ
-    Misdelivered, // è¯¯å–
-    DamagedLost   // æŸåä¸¢å¤±
+
+/* °ü¹ü×´Ì¬ */
+typedef enum PackageState
+{
+	Ordered,      // ÒÑÏÂµ¥
+	Shipped,      // ÒÑ¼Ä³ö
+	Pending,      // ´ıÊÕ¼ş
+	Delivered,    // ÒÑÊÕ¼ş
+	Refused,      // ¾ÜÊÕ
+	Canceled,     // È¡Ïû
+	Misdelivered, // ÎóÈ¡
+	DamagedLost   // Ëğ»µ¶ªÊ§
 } PackageState;
 
-/* å·¥å•ç±»å‹ */
-typedef enum {
-    Miscollection,               // è¯¯å–ç”³è¯·
-    DamageLoss,                  // æŸåä¸¢å¤±
-    ComplaintSuggestion,         // æŠ•è¯‰å»ºè®®
-    ComplaintSuggestionAddressed // æŠ•è¯‰å»ºè®®å·²å¤„ç†
+/* ¹¤µ¥ÀàĞÍ */
+typedef enum TicketType
+{
+	Miscollection,               // ÎóÈ¡ÉêÇë
+	DamageLoss,                  // Ëğ»µ¶ªÊ§
+	ComplaintSuggestion,         // Í¶Ëß½¨Òé
 } TicketType;
 
-/* è´§æ¶å±‚ä¿¡æ¯ */
-typedef struct {
-    double volumeCapacity;     // è´§æ¶å±‚æœ€å¤§å®¹ç§¯
-    double occupiedVolume;     // è´§æ¶å±‚å·²ä½¿ç”¨å®¹ç§¯
-    int packageNum;            // å½“å‰è´§æ¶å±‚çš„åŒ…è£¹æ•°
+/* »õ¼Ü²ãĞÅÏ¢ */
+typedef struct ShelfLevel
+{
+	double volumeCapacity;     // »õ¼Ü²ã×î´óÈİ»ı
+	double occupiedVolume;     // »õ¼Ü²ãÒÑÊ¹ÓÃÈİ»ı
+	int packageNum;            // µ±Ç°»õ¼Ü²ãµÄ°ü¹üÊı
 } ShelfLevel;
 
-/* æ—¶é—´ä¿¡æ¯ */
-typedef struct {
-    time_t ordered;   // ä¸‹å•æ—¶é—´
-    time_t shipped;   // å¯„å‡ºæ—¶é—´
-    time_t canceled;  // å–æ¶ˆæ—¶é—´
-    time_t pending;   // å…¥åº“æ—¶é—´
-    time_t delivered; // æ”¶ä»¶æ—¶é—´
-    time_t refused;   // æ‹’æ”¶æ—¶é—´
+/* Ê±¼äĞÅÏ¢ */
+typedef struct PackageTime
+{
+	time_t ordered;   // ÏÂµ¥Ê±¼ä
+	time_t shipped;   // ÒÑ¼Ä³öÊ±¼ä
+	time_t canceled;  // È¡ÏûÊ±¼ä
+	time_t pending;   // Èë¿âÊ±¼ä
+	time_t delivered; // ÊÕ¼şÊ±¼ä
+	time_t refused;   // ¾ÜÊÕÊ±¼ä
 } PackageTime;
 
-/* ç”¨æˆ·ä¿¡æ¯ */
-typedef struct User {
-    long long   userId;               // ç”¨æˆ·ç¼–å·
-    char        userName[NAME];       // ç”¨æˆ·å§“å
-    UserType    userType;             // ç”¨æˆ·ç±»å‹
-    int         discount;             // æŠ˜æ‰£(0%-100%)
-    char        phoneNumber[PHONE];   // æ‰‹æœºå·
-    char        identityCode[ID_CODE];// èº«ä»½ç 
-    char        password[PASSWORD];   // å¯†ç 
-    unsigned int couponCount;         // ä¼˜æƒ åˆ¸æ•°é‡
-    unsigned int experience;          // ç»éªŒå€¼
-    struct User* nextUser;            // æŒ‡å‘ä¸‹ä¸€ä¸ªç”¨æˆ·
+/* ÓÃ»§ĞÅÏ¢ */
+typedef struct User
+{
+	long long   userId;               // ÓÃ»§±àºÅ
+	char        userName[NAME];       // ÓÃ»§ĞÕÃû
+	UserType    userType;             // ÓÃ»§ÀàĞÍ
+	int         discount;             // ÕÛ¿Û(0%-100%)
+	char        phoneNumber[PHONE];   // ÊÖ»úºÅ
+	char        identityCode[ID_CODE];// Éí·İÂë
+	char        password[PASSWORD];   // ÃÜÂë
+	int couponCount;         // ÓÅ»İÈ¯ÊıÁ¿
+	int experience;          // ¾­ÑéÖµ
 } User;
 
-/* åŒ…è£¹ä¿¡æ¯ */
-typedef struct Package {
-    char            trackingNum[TRACKING_NUM];		// å¿«é€’å•å·(å”¯ä¸€æ ‡è¯†)
-    char            packageName[NAME];   // åŒ…è£¹åç§°
-    PackageType     packageType;         // åŒ…è£¹ç±»å‹
-    double          volume;              // åŒ…è£¹ä½“ç§¯
-    double          weight;              // åŒ…è£¹é‡é‡
-    char            senderPhone[PHONE];			// å¯„ä»¶äººæ‰‹æœºå·
-    char            senderAddress[ADDRESS];		// å¯„ä»¶åœ°å€
-    char            receiverPhone[PHONE];		// æ”¶ä»¶äººæ‰‹æœºå·
-    char            receiverAddress[ADDRESS];	// æ”¶ä»¶åœ°å€
-    double          shippingFee;         // è¿è´¹
-    ShippingMethod  shippingMethod;      // å¯„ä»¶æ–¹å¼
-    int             usedCouponNum;		// ä½¿ç”¨ä¼˜æƒ åˆ¸çš„æ•°é‡
-    char            pickupCode[ID_CODE]; // å–ä»¶ç 
-    PackageState    packageState;        // åŒ…è£¹çŠ¶æ€
-    char            pickupAddress[ADDRESS]; // å–ä»¶åœ°å€
-    bool            isHomeDelivered;     // æ˜¯å¦é€ä»¶åˆ°æ¥¼
-    bool            isHomeSent;          // æ˜¯å¦å–ä»¶åˆ°æ¥¼
-    PackageTime     time;                // ç»Ÿä¸€æ—¶é—´ä¿¡æ¯
-    struct Package* nextPackage;         // æŒ‡å‘ä¸‹ä¸€ä¸ªåŒ…è£¹
+/* °ü¹üĞÅÏ¢ */
+typedef struct Package
+{
+	char            trackingNum[TRACKING_NUM];		// ¿ìµİµ¥ºÅ(Î¨Ò»±êÊ¶)
+	char            packageName[NAME];   // °ü¹üÃû³Æ
+	PackageType     packageType;         // °ü¹üÀàĞÍ
+	ShippingMethod  shippingMethod;      // ¼Ä¼ş·½Ê½
+	double          volume;              // °ü¹üÌå»ı
+	double          weight;              // °ü¹üÖØÁ¿
+	char            senderPhone[PHONE];			// ¼Ä¼şÈËÊÖ»úºÅ
+	char            senderAddress[ADDRESS];		// ¼Ä¼şµØÖ·
+	char            receiverPhone[PHONE];		// ÊÕ¼şÈËÊÖ»úºÅ
+	char            receiverAddress[ADDRESS];	// ÊÕ¼şµØÖ·
+	bool            isHomeDelivered;     // ÊÇ·ñËÍ¼şµ½Â¥
+	bool            isHomeSent;          // ÊÇ·ñÈ¡¼şµ½Â¥
+	int             usedCouponNum;					// Ê¹ÓÃÓÅ»İÈ¯µÄÊıÁ¿
+	double          shippingFee;         // ÔË·Ñ
+	char            pickupCode[ID_CODE]; // È¡¼şÂë
+	PackageState    packageState;        // °ü¹ü×´Ì¬
+	PackageTime     time;                // Í³Ò»Ê±¼äĞÅÏ¢
 } Package;
 
-/* å·¥å•ä¿¡æ¯ */
-typedef struct Ticket {
-    long long       ticketId;            // å·¥å•ç¼–å·
-    TicketType      ticketType;          // å·¥å•ç±»å‹
-    char            description[DESCR];  // æè¿°
-    time_t          createdTime;         // åˆ›å»ºæ—¶é—´
-    struct Ticket* nextTicket;          // æŒ‡å‘ä¸‹ä¸€ä¸ªå·¥å•
+/* ¹¤µ¥ĞÅÏ¢ */
+typedef struct Ticket
+{
+	long long       ticketId;            // ¹¤µ¥±àºÅ
+	TicketType      ticketType;          // ¹¤µ¥ÀàĞÍ
+	char            description[DESCR];  // ÃèÊö
+	time_t          createdTime;         // ´´½¨Ê±¼ä
+	char            userPhone[PHONE];    // ÓÃ»§ÊÖ»úºÅ
+	char            pkgTrackingNum[TRACKING_NUM]; //°ü¹ü¿ìµİµ¥ºÅ
+	bool            isHandled;          // ÊÇ·ñ±»´¦Àí
 } Ticket;
 
-/* æ—¥å¿—ä¿¡æ¯ */
-typedef struct Log {
-    char            description[DESCR];  // æè¿°
-    time_t          createdTime;         // åˆ›å»ºæ—¶é—´
-    struct Log* nextLog;             // æŒ‡å‘ä¸‹ä¸€ä¸ªæ—¥å¿—
+/* ÈÕÖ¾ĞÅÏ¢ */
+typedef struct Log
+{
+	char            description[DESCR];  // ÃèÊö
+	time_t          createdTime;         // ´´½¨Ê±¼ä
 } Log;
 
-/* ç»Ÿè®¡æ•°æ® */
-typedef struct {
-    double  weeklyRevenue;               // æ¯å‘¨æ”¶å…¥
-    int     sendCount;                   // å¯„ä»¶æ•°é‡
-    int     pickupCount;                 // å–ä»¶æ•°é‡
-    int     remainPackages;              // å‰©ä½™åŒ…è£¹æ•°é‡
+/* Í³¼ÆÊı¾İ */
+typedef struct Statistics
+{
+	double  weeklyRevenue;               // Ã¿ÖÜÊÕÈë
+	int     sendCount;                   // ¼Ä¼şÊıÁ¿
+	int     pickupCount;                 // È¡¼şÊıÁ¿
+	int     remainPackages;              // Ê£Óà°ü¹üÊıÁ¿
 } Statistics;
-
-/* æ¶ˆæ¯ä¿¡æ¯ */
-typedef struct MMessage {
-    char message[DESCR];                 // æ¶ˆæ¯å†…å®¹
-    char phoneNumber[PHONE];             // æ‰‹æœºå·
-    struct MMessage* nextMessage;        // æŒ‡å‘ä¸‹ä¸€æ¡æ¶ˆæ¯
-} MMessage;
